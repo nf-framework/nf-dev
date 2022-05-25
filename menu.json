@@ -1,0 +1,32 @@
+[
+    {
+        "caption":  "Инструменты разработчика",
+        "path":     "",
+        "icon":     "code",
+        "order":    90
+    },
+    {
+        "caption":  "Модули и разделы",
+        "path":     "Инструменты разработчика",
+        "form":     "dev.unitlist",
+        "icon":     "catalog-2",
+        "guid":     "40466d66-4c02-4b04-9f7c-c7449de99046",
+        "order":    10
+    },
+    {
+        "caption":  "Подготовка исходников бд",
+        "path":     "Инструменты разработчика",
+        "form":     "dev.db-source-save",
+        "icon":     "database",
+        "guid":     "efdd4bca-66fa-4ca4-8aab-3f1d7376ef7c",
+        "order":    20
+    },
+    {
+        "caption":  "Смена контекста",
+        "path":     "Инструменты разработчика",
+        "form":     "dev.switch-context",
+        "icon":     "person-group",
+        "guid":     "969c8501-22de-4f78-93f9-3bf653f0771d",
+        "order":    60
+    }
+]

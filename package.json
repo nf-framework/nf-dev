@@ -1,0 +1,30 @@
+{
+    "name": "@nfjs/dev",
+    "version": "1.0.0",
+    "description": "Developer kit",
+    "license": "MIT",
+    "type": "module",
+    "main": "index.js",
+    "author": "The NF Project Authors",
+    "contributors": [
+        {
+            "name": "Dmitry Boikov",
+            "email": "boikovdv@gmail.com"
+        },
+        {
+            "name": "Andrey Maksimov",
+            "email": "andrmaxmail@gmail.com"
+        },
+        {
+            "name": "Azat Yamalov",
+            "email": "yamalov.azat@live.com"
+        }
+    ],
+    "dependencies": {
+        "@nfjs/core": "^1.0.0",
+        "@nfjs/front-pl": "^1.0.0",
+        "@nfjs/migrate": "^1.0.0"
+    },
+    "devDependencies": {
+    }
+}
