@@ -1,0 +1,51 @@
+[
+{
+	"nfc.modulelist": {
+		"code": "nfd",
+		"caption": "Инструменты разработчика",
+		"#details": [
+			{
+				"nfc.unitlist": {
+					"code": "nfd.datatype_dates",
+					"caption": "Проверка полей типов данных - дата",
+					"pcode": null,
+					"mdl": "nfd",
+					"opt": {
+						"divideType": "sys",
+						"idGenMethod": "main",
+						"useCatalogs": null,
+						"useChronicle": false,
+						"useHierarchy": false
+					},
+					"#details": [
+						{
+							"nfc.unitbps": {
+								"code": "nfd.datatype_dates.add",
+								"caption": "Добавление",
+								"exec_function": null,
+								"use_privs": false
+							}
+						},
+						{
+							"nfc.unitbps": {
+								"code": "nfd.datatype_dates.del",
+								"caption": "Удаление",
+								"exec_function": null,
+								"use_privs": false
+							}
+						},
+						{
+							"nfc.unitbps": {
+								"code": "nfd.datatype_dates.upd",
+								"caption": "Исправление",
+								"exec_function": null,
+								"use_privs": false
+							}
+						}
+					]
+				}
+			}
+		]
+	}
+}
+]
