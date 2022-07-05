@@ -77,8 +77,8 @@ export default class DevDbSourceSave extends PlForm {
 
     static get template() {
         return html`
-            <pl-flex-layout fit>
-                <pl-checkbox caption="Отмечать в провайдере (default), что сохраняемые элементы уже выполнены. Работает только при наличии схемы nfd в провайдере данных." checked="{{initParams.markApplied}}" hidden="[[!initParams.using_nfd]]" slot="header-suffix"></pl-checkbox>
+            <pl-flex-layout fit verticalq>
+                <pl-checkbox caption="Отмечать в провайдере (default), что сохраняемые элементы уже выполнены. Работает только при наличии схемы nfd в провайдере данных." checked="{{initParams.markApplied}}" hidden="[[!initParams.using_nfd]]"></pl-checkbox>
                 <pl-tabpanel fit>
                     <pl-tab header="Объекты" fit>
                         <pl-flex-layout vertical fit>
@@ -98,7 +98,7 @@ export default class DevDbSourceSave extends PlForm {
                                     <pl-grid-column header="Схема объекта" field="object_schema" resizable sortable></pl-grid-column>
                                     <pl-grid-column header="Наименование объекта" field="object_name" resizable sortable></pl-grid-column>
                                     <pl-grid-column header="Тип объекта" field="object_type" resizable sortable></pl-grid-column>
-                                    <pl-grid-column header="Дата последнего изменения" field="ddl_execute_ts" sortable sort="desc" format="DD.MM.YYYY HH:mm:ss" width="120" hidden="[[!initParams.using_nfd]]"></pl-grid-column>
+                                    <pl-grid-column header="Дата последнего изменения" field="ddl_execute_ts" sortable sort="desc" format="DD.MM.YYYY HH:mm:ss" width="120"></pl-grid-column>
                                     <pl-flex-layout slot="top-toolbar" align="flex-end">
                                         <pl-icon-button iconset="pl-default" icon="repeat" on-click="[[doRefreshObj]]"></pl-icon-button>
                                         <pl-filter-container id="fcObjs" data="{{objs}}">
