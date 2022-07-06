@@ -77,7 +77,7 @@ export default class DevDbSourceSave extends PlForm {
 
     static get template() {
         return html`
-            <pl-flex-layout fit verticalq>
+            <pl-flex-layout fit vertical>
                 <pl-checkbox caption="Отмечать в провайдере (default), что сохраняемые элементы уже выполнены. Работает только при наличии схемы nfd в провайдере данных." checked="{{initParams.markApplied}}" hidden="[[!initParams.using_nfd]]"></pl-checkbox>
                 <pl-tabpanel fit>
                     <pl-tab header="Объекты" fit>
