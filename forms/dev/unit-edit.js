@@ -81,8 +81,8 @@ export default class DevUnitEdit extends PlForm {
                             <pl-combobox label="Родительский" value="{{unit.pcode}}" data="[[unitlist]]" text-property="code" value-property="code"></pl-combobox>
                         </pl-flex-layout>
                         <pl-flex-layout vertical>
-                            <pl-combobox label="Генерация идентификатора" value="{{unit.opt.idGenMethod}}" data="[[idGenMethods]]" required></pl-combobox>
-                            <pl-combobox label="Деление" value="{{unit.opt.divideType}}" data="[[divides]]" required></pl-combobox>
+                            <pl-combobox label="Генерация идентификатора" text-property="text" value-property="value" value="{{unit.opt.idGenMethod}}" data="[[idGenMethods]]" required></pl-combobox>
+                            <pl-combobox label="Деление" value="{{unit.opt.divideType}}" text-property="text" value-property="value"  data="[[divides]]" required></pl-combobox>
                             <pl-checkbox label="Иерархия" checked="{{unit.opt.useHierarchy}}" required></pl-checkbox>
                         </pl-flex-layout>
                     </pl-flex-layout>
