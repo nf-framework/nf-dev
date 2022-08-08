@@ -64,8 +64,8 @@ export default class DevUnitEdit extends PlForm {
     static get template() {
         return html`
             <pl-flex-layout fit>
-                <pl-card fit>
-                    <pl-flex-layout slot="header-prefix">
+                <pl-flex-layout fit vertical>
+                    <pl-flex-layout >
                         <pl-button label="Сохранить" on-click="[[onSave]]" disabled="[[disableSave(hasChanges,invalid)]]" variant="primary">
                             <pl-icon iconset="pl-default" icon="save" slot="suffix"></pl-icon>
                         </pl-button>
@@ -134,7 +134,7 @@ export default class DevUnitEdit extends PlForm {
                         </pl-grid>
                     </pl-card>
                     <pl-valid-observer invalid="{{invalid}}"></pl-valid-observer>
-                </pl-card>
+                </pl-flex-layout>
                 <pl-flex-layout class="objects" hidden="[[!isCreated(unit.$action)]]">
                     <pl-grid data="[[objects]]" key-field="obj_fullname" pkey-field="obj_type" tree>
                         <pl-grid-column field="obj_fullname" header="Наименование"></pl-grid-column>
