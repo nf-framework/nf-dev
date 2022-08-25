@@ -319,6 +319,7 @@ export default class DevUnitEdit extends PlForm {
                         datatype: 'int8',
                         required: true,
                         default_value: `nextval('${obj.schema}.s4${obj.tablename}'::text::regclass)`,
+                        comment: 'Идентификатор'
                     };
                     if (idGenMethod === 'main') {
                         col.default_value = `nextval('nfc.s_main'::text::regclass)`;
