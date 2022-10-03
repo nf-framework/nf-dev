@@ -128,11 +128,9 @@ export default class DevDbSourceSave extends PlForm {
                             </pl-flex-layout>
                             <pl-flex-layout fit>
                                 <pl-grid data="{{dats}}" key-field="table" pkey-field="schema" selected="{{activeDats}}" tree>
-                                    <pl-grid-column width="68">
+                                    <pl-grid-column width="80">
                                         <template>
-                                            <pl-flex-layout fit justify="center">
-                                                <pl-checkbox checked="{{row.selected}}" variant="horizontal" hidden="[[!row.schema]]"></pl-checkbox>
-                                            </pl-flex-layout>
+                                            <pl-checkbox checked="{{row.selected}}" variant="horizontal" hidden="[[!row.schema]]"></pl-checkbox>
                                         </template>
                                     </pl-grid-column>
                                     <pl-grid-column header="Схемы выгрузки данных" field="table"></pl-grid-column>
