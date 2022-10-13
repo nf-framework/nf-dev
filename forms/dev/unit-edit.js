@@ -135,7 +135,7 @@ export default class DevUnitEdit extends PlForm {
                     </pl-card>
                     <pl-valid-observer invalid="{{invalid}}"></pl-valid-observer>
                 </pl-flex-layout>
-                <pl-flex-layout class="objects">
+                <pl-flex-layout class="objects" hidden="[[!isCreated(unit.$action)]]">
                     <pl-grid data="[[objects]]" key-field="obj_fullname" pkey-field="obj_type" tree>
                         <pl-grid-column field="obj_fullname" header="Наименование"></pl-grid-column>
                         <pl-grid-column action width="100">
