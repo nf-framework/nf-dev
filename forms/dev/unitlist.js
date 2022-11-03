@@ -26,7 +26,7 @@ export default class DevUnitlist extends PlForm {
             }
             
             .unitbps {
-                height: 400px;
+                height: 200px;
                 width: 100%;
             }
         `;
