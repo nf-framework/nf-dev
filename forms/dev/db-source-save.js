@@ -98,7 +98,7 @@ export default class DevDbSourceSave extends PlForm {
                                     <pl-grid-column header="Схема объекта" field="object_schema" resizable sortable></pl-grid-column>
                                     <pl-grid-column header="Наименование объекта" field="object_name" resizable sortable></pl-grid-column>
                                     <pl-grid-column header="Тип объекта" field="object_type" resizable sortable></pl-grid-column>
-                                    <pl-grid-column header="Дата последнего изменения" field="ddl_execute_ts" sortable sort="desc" format="DD.MM.YYYY HH:mm:ss" width="120"></pl-grid-column>
+                                    <pl-grid-column header="Дата изменения" field="ddl_execute_ts" sortable sort="desc" kind="date" format="DD.MM.YYYY HH:mm:ss" width="160"></pl-grid-column>
                                     <pl-flex-layout slot="top-toolbar" align="flex-end">
                                         <pl-icon-button iconset="pl-default" icon="repeat" on-click="[[doRefreshObj]]"></pl-icon-button>
                                         <pl-filter-container id="fcObjs" data="{{objs}}">
