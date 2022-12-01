@@ -22,6 +22,14 @@
         "order":    20
     },
     {
+        "caption":  "Иконки",
+        "path":     "Инструменты разработчика",
+        "form":     "dev.icons",
+        "icon":     "image",
+        "guid":     "685892d1-9027-41c4-ba8b-f65812c184e7",
+        "order":    30
+    },
+    {
         "caption":  "Смена контекста",
         "path":     "Инструменты разработчика",
         "form":     "dev.switch-context",
