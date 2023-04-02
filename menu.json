@@ -30,6 +30,14 @@
         "order":    30
     },
     {
+        "caption":  "Манипуляции с данными",
+        "path":     "Инструменты разработчика",
+        "form":     "dev.data-tools",
+        "icon":     "database",
+        "guid":     "2b9709a2-5014-4255-93f2-6b48f34eb3a7",
+        "order":    40
+    },
+    {
         "caption":  "Смена контекста",
         "path":     "Инструменты разработчика",
         "form":     "dev.switch-context",
