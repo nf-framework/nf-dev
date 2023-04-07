@@ -10,12 +10,29 @@ export default class DevIcons extends PlForm {
         icons: {type: Array, value: ()=>[]}
     }
 
+    static css = css`
+        .icon {
+            display: flex;
+            flex-direction: column;
+            border: 1px solid var(--grey-base);
+            width: 130px;
+            height: 130px;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-md);
+            border-radius: var(--border-radius);
+        }
+    `
+
     static template = html`
         <pl-flex-layout vertical fit scrollable>
             <pl-flex-layout d:repeat="[[icons]]" d:as="iconset" vertical>
                 <h3>[[iconset.name]]</h3>
                 <pl-flex-layout wrap>
-                    <pl-icon-button d:repeat="[[iconset.icons]]" d:as="icon" iconset="[[iconset.name]]" size="16" icon="[[icon]]" on-click="[[onIconClick]]"></pl-icon-button>
+                    <div class="icon" d:repeat="[[iconset.icons]]" d:as="icon">
+                        <pl-icon-button iconset="[[iconset.name]]" size="16" icon="[[icon]]" on-click="[[onIconClick]]"></pl-icon-button>
+                        [[icon]]
+                    </div>
                 </pl-flex-layout>
             </pl-flex-layout>
         </pl-flex-layout>
