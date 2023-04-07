@@ -26,6 +26,7 @@
         "path":     "Инструменты разработчика",
         "form":     "dev.icons",
         "icon":     "image",
+        "iconset":  "pl-filetypes",
         "guid":     "685892d1-9027-41c4-ba8b-f65812c184e7",
         "order":    30
     },
