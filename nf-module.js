@@ -3,6 +3,7 @@ import { api as nfApi } from '@nfjs/core';
 import { web } from '@nfjs/back';
 import * as dbSourceSave from './src/db-source-save.js';
 import * as sc from "./src/switch-context.js";
+import * as generateFormByTemplate from './src/generateFormByTemplate/index.js';
 
 const meta = {
     require: {
@@ -38,6 +39,11 @@ async function init() {
         }
     });
 
+    web.on('POST', '/@nfjs/dev/api/generateFormByTemplate', { middleware: ['session', 'json'] }, generateFormByTemplate.generateFormHandler);
+    web.on('POST', '/@nfjs/dev/api/generateFormByTemplate/card/entityAttributes', { middleware: ['session', 'json'] }, generateFormByTemplate.getEntityAttributesForCardHandler);
+    web.on('POST', '/@nfjs/dev/api/generateFormByTemplate/list/entityAttributes', { middleware: ['session', 'json'] }, generateFormByTemplate.getEntityAttributesForListHandler);
+    web.on('POST', '/@nfjs/dev/api/generateFormByTemplate/getTemplatePaths', { middleware: ['session', 'json'] }, generateFormByTemplate.getTemplatePathsHandler);
+    web.on('POST', '/@nfjs/dev/api/generateFormByTemplate/getTemplateByPath', { middleware: ['session', 'json'] }, generateFormByTemplate.getTemplateByPathHandler);
 }
 
 export {

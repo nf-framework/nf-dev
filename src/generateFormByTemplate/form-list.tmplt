@@ -1,0 +1,87 @@
+import { html, css } from "polylib";
+import { PlForm } from "@nfjs/front-pl/components/pl-form.js";
+
+export default class {{{formClass}}} extends PlForm {
+    static properties = {
+        formTitle: {
+            type: String,
+            value: '{{{formTitle}}}'
+        },
+        data: { value: () => { [] } },
+        selected: { value: () => ({}) },
+    }
+
+    static template = html`
+        <pl-flex-layout scrollable vertical fit>
+            <pl-grid data="\{{data}}" selected="\{{selected}}" on-row-dblclick="[[onEditClick]]">
+                <pl-flex-layout stretch align="flex-end" slot="top-toolbar">
+                    <pl-filter-container data="\{{data}}" id="fltr">
+                        {{{filters}}}
+                    </pl-filter-container>
+                    <pl-button variant="ghost" label="Найти" on-click="[[onSearchClick]]">
+                        <pl-icon iconset="pl-default" size="16" icon="search" slot="prefix"></pl-icon>
+                    </pl-button>
+                    <pl-button variant="link" label="Сбросить" on-click="[[onClearClick]]">
+                        <pl-icon iconset="pl-default" size="16" icon="close" slot="prefix"></pl-icon>
+                    </pl-button>
+                    <pl-button variant="primary" label="Добавить" on-click="[[onAddClick]]">
+                        <pl-icon iconset="pl-default" size="16" icon="plus" slot="prefix"></pl-icon>
+                    </pl-button>
+                </pl-flex-layout>
+                {{{columns}}}
+                <pl-grid-column width="90" action>
+                    <template>
+                        <pl-flex-layout>
+                            <pl-icon-button variant="link" iconset="pl-default" size="16" icon="pencil"
+                                on-click="[[onEditClick]]"></pl-icon-button>
+                            <pl-icon-button variant="link" iconset="pl-default" size="16" icon="trashcan"
+                                on-click="[[onDeleteClick]]"></pl-icon-button>
+                        </pl-flex-layout>
+                    </template>
+                </pl-grid-column>
+            </pl-grid>
+            <pl-dataset id="dsList" data="\{{data}}" endpoint="{{{endpointList}}}" partial-data></pl-dataset>
+            <pl-action args="[[_compose('id', selected.id)]]" id="aDelete" endpoint="{{{endpointDelete}}}"></pl-action>
+        </pl-flex-layout>
+    `;
+
+    onConnect() {
+        this.$.dsList.execute();
+    }
+    onSearchClick() {
+        this.$.fltr.applyFilters();
+        this.$.dsList.execute();
+    }
+    onClearClick() {
+        this.$.fltr.clearFilters();
+        this.$.dsList.execute();
+    }
+    async onAddClick(event) {
+        await this.open('{{{cardForm}}}');
+        this.$.dsList.execute();
+    }
+    async onEditClick(event) {
+        await this.open('{{{cardForm}}}', {
+            recordId: event.model.row.id
+        });
+        this.$.dsList.execute();
+    }
+    async onDeleteClick() {
+        if (await this.showConfirm('Вы уверены что хотите удалить запись?', {
+            buttons: [{
+                label: 'Нет',
+                variant: 'secondary',
+                action: false,
+            },
+            {
+                label: 'Удалить',
+                variant: 'primary',
+                negative: true,
+                action: true
+            }]
+        })) {
+            await this.$.aDelete.execute();
+            this.$.dsList.execute();
+        }
+    }
+}

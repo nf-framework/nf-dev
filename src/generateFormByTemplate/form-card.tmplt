@@ -1,0 +1,56 @@
+import { html, css } from "polylib";
+import { PlForm } from "@nfjs/front-pl/components/pl-form.js";
+
+export default class {{{formClass}}} extends PlForm {
+    static properties = { 
+        formTitle: {
+            type: String,
+            value: '{{{formTitle}}}'
+        },
+        urlParams: {
+            type: Array,
+            value: ['recordId']
+        },
+        record: {
+            type: Object,
+            value: () => ({}),
+        },
+        recordId: {
+            type: String,
+            value: undefined
+        },
+        invalid: {
+            value: false
+        },
+        {{{formProperties}}}
+    }
+
+    static template = html`
+        <pl-valid-observer invalid="\{{invalid}}"></pl-valid-observer>
+        <pl-flex-layout scrollable vertical fit>
+            {{{inputs}}}
+            <pl-flex-layout>
+                <pl-button label="Сохранить" variant="primary" disabled="[[invalid]]" on-click="[[onSaveClick]]">
+                    <pl-icon iconset="pl-default" size="16" icon="save" slot="prefix"></pl-icon>
+                </pl-button>
+                <pl-button label="Отменить" variant="secondary" on-click="[[close]]">
+                    <pl-icon iconset="pl-default" size="16" icon="close" slot="prefix"></pl-icon>
+                </pl-button>
+            </pl-flex-layout>
+        </pl-flex-layout>
+        <pl-action id="aRead" args="[[_compose('recordId',recordId)]]" data="\{{record}}" endpoint="{{{endpointRead}}}" execute-on-args-change required-args='recordId'></pl-action>
+        <pl-action id="aCreate" args="[[_compose('...', record)]]" endpoint="{{{endpointCreate}}}"></pl-action>
+        <pl-action id="aUpdate" args="[[_compose('...', record)]]" endpoint="{{{endpointUpdate}}}"></pl-action>
+        {{{dataSources}}}
+    `;
+
+    async onSaveClick() {
+        if (this.record.id) {
+            await this.$.aUpdate.execute();
+        } else {
+            const data = await this.$.aCreate.execute();
+            this.recordId = data.id;
+        }
+        this.notify('Сохранение прошло успешно');
+    }
+}
