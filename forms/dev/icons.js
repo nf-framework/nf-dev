@@ -14,13 +14,13 @@ export default class DevIcons extends PlForm {
         .icon {
             display: flex;
             flex-direction: column;
-            border: 1px solid var(--grey-base);
+            border: 1px solid var(--pl-grey-base);
             width: 130px;
             height: 130px;
             align-items: center;
             justify-content: center;
-            gap: var(--space-md);
-            border-radius: var(--border-radius);
+            gap: var(--pl-base-space);
+            border-radius: var(--pl-border-radius);
         }
     `
 
