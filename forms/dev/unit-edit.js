@@ -72,6 +72,7 @@ export default class DevUnitEdit extends PlForm {
                         <pl-button label="Отменить" on-click="[[close]]">
                             <pl-icon iconset="pl-default" icon="close-s" slot="suffix"></pl-icon>
                         </pl-button>
+                        <pl-button label="Генерация форм" on-click="[[onGenerateForm]]" hidden="[[!isCreated(unit.$action)]]"></pl-button>
                     </pl-flex-layout>
                     <pl-flex-layout>
                         <pl-flex-layout vertical>
@@ -398,6 +399,14 @@ export default class DevUnitEdit extends PlForm {
             await this.$.aDropObject.execute({ objIdentity, objType });
             this.$.dsObjects.execute({unit: this.unit.code});
         }
+    }
+
+    onGenerateForm() {
+        this.open('dev.generate-form', { 
+            entitySchema: this.unit.code.split('.')[0], 
+            entityName: this.unit.code.split('.')[1],
+            formTitle: this.unit.caption,
+         });
     }
 
     serverEndpoints = {

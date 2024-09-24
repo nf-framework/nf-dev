@@ -295,6 +295,25 @@ export default class DevGenerateForm extends PlForm {
     async onConnect() {
         this.$.getTemplatePaths.execute();
         this.$.aGetFormPaths.execute();
+        if (this.entitySchema) {
+            this.set('recordCard.entitySchema', this.entitySchema);
+            this.set('recordList.entitySchema', this.entitySchema);
+        }
+        if (this.entityName) {
+            this.set('recordCard.entityName', this.entityName);
+            this.set('recordList.entityName', this.entityName);
+        }
+        if (this.formTitle) {
+            this.set('recordCard.formTitle', this.formTitle);
+            this.set('recordList.formTitle', this.formTitle);
+        }
+        if (this.entitySchema && this.entityName) {
+            const capitalizeFirst = s => s[0].toUpperCase() + s.slice(1);
+            this.set('recordCard.formClass', `${capitalizeFirst(this.entitySchema)}${capitalizeFirst(this.entityName)}Card`);
+            this.set('recordList.formClass', `${capitalizeFirst(this.entitySchema)}${capitalizeFirst(this.entityName)}List`);
+            this.onAddByTableCardAttributeClick();
+            this.onAddByTableListAttributeClick();
+        }
     }
 
     async onGenerateFormCardClick() {
