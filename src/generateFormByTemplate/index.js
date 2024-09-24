@@ -1,4 +1,5 @@
 import fs from 'fs';
+import { join } from 'path';
 import { dbapi } from '@nfjs/back';
 import { extension } from '@nfjs/core';
 import { DevGenerateFormCard } from './form-card.js';
@@ -34,7 +35,7 @@ const TABLE_ATTRIBUTES_SQL = `select attr.attname as name,
  * @property {string} name имя
  * @property {string} datatype тип данных
  * @property {boolean} required признак обязательности
- * @property {string} comment коммнтарий
+ * @property {string} comment комментарий
  * @property {string} fk_tablename полное имя таблицы, на которую ссылается атрибут
  */
 
@@ -143,6 +144,36 @@ export async function getTemplateByPathHandler(context) {
         const { templatePath } = context?.body?.args;
         const buf = await fs.promises.readFile(templatePath);
         context.send({ data: { template: buf.toString() }});
+    } catch (e) {
+        console.error(e);
+        context.code(500).send(e.message);
+    }
+}
+
+export async function getFormPathsHandler(context) {
+    try {
+        const formsDirFind = await extension.getFiles('**/forms', { resArray: true, onlyExt: true, isDir: true });
+        const result = formsDirFind.map(path => ({ path }));
+        context.send({ data: result });
+    } catch (e) {
+        console.error(e);
+        context.code(500).send(e.message);
+    }
+}
+
+export async function saveFormsHandler(context) {
+    try {
+        const { formType, formContent, formPath, entitySchema, entityName } = context.body.args;
+        //
+        const saveDir = join(formPath, entitySchema, entityName);
+        try {
+            await fs.promises.mkdir(saveDir, { recursive: true });
+        } catch (e) {
+            if (!(e.code === 'EEXIST')) throw (e);
+        }
+        const filePath = join(saveDir, `${formType}.js`);
+        await fs.promises.writeFile(filePath, formContent);
+        context.send({ data: { filePath }});
     } catch (e) {
         console.error(e);
         context.code(500).send(e.message);

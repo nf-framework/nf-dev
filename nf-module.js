@@ -44,6 +44,8 @@ async function init() {
     web.on('POST', '/@nfjs/dev/api/generateFormByTemplate/list/entityAttributes', { middleware: ['session', 'json'] }, generateFormByTemplate.getEntityAttributesForListHandler);
     web.on('POST', '/@nfjs/dev/api/generateFormByTemplate/getTemplatePaths', { middleware: ['session', 'json'] }, generateFormByTemplate.getTemplatePathsHandler);
     web.on('POST', '/@nfjs/dev/api/generateFormByTemplate/getTemplateByPath', { middleware: ['session', 'json'] }, generateFormByTemplate.getTemplateByPathHandler);
+    web.on('POST', '/@nfjs/dev/api/generateFormByTemplate/getFormPaths', { middleware: ['session', 'json'] }, generateFormByTemplate.getFormPathsHandler);
+    web.on('POST', '/@nfjs/dev/api/generateFormByTemplate/saveForm', { middleware: ['session', 'json'] }, generateFormByTemplate.saveFormsHandler);
 }
 
 export {

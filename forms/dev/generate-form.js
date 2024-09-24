@@ -23,7 +23,8 @@ export default class DevGenerateForm extends PlForm {
             type: Object,
             value: () => ({ schema: null, table: null })
         },
-        templatePaths: { type: Array, value: () => [] }
+        templatePaths: { type: Array, value: () => [] },
+        formPaths: { type: Array, value: () => [] }
     }
 
     static template = html`
@@ -33,8 +34,8 @@ export default class DevGenerateForm extends PlForm {
                     <pl-flex-layout scrollable vertical fit>
                         <pl-flex-layout stretch>
                             <pl-flex-layout vertical fit>
-                                <pl-input label="Схема сущности" title="entitySchema" value="{{recordCard.entitySchema}}" stretch></pl-input>
-                                <pl-input label="Имя сущности" title="entityName" value="{{recordCard.entityName}}" stretch></pl-input>
+                                <pl-input label="Схема сущности" title="entitySchema" value="{{recordCard.entitySchema}}" stretch required></pl-input>
+                                <pl-input label="Имя сущности" title="entityName" value="{{recordCard.entityName}}" stretch required></pl-input>
                                 <pl-input label="Имя класса формы" title="formClass" value="{{recordCard.formClass}}" stretch></pl-input>
                                 <pl-input label="Заголовок формы" title="formTitle" value="{{recordCard.formTitle}}" stretch></pl-input>
                                 <pl-input label="Имя свойства для записи сущности" title="recordProperty" value="{{recordCard.recordProperty}}" stretch></pl-input>
@@ -44,13 +45,14 @@ export default class DevGenerateForm extends PlForm {
                                 <pl-input label="Адрес для создания" title="endpointCreate" value="{{recordCard.endpointCreate}}" stretch></pl-input>
                                 <pl-input label="Адрес для изменения" title="endpointUpdate" value="{{recordCard.endpointUpdate}}" stretch></pl-input>
                             </pl-flex-layout>
+                            <pl-valid-observer invalid="{{supportCard.invalidMain}}"></pl-valid-observer>
                         </pl-flex-layout>
-                        <pl-grid data="{{recordCard.inputs}}" class="cols">
+                        <pl-grid data="{{recordCard.inputs}}" class="cols" >
                             <pl-flex-layout slot="top-toolbar" align="flex-end"> 
                                 <pl-button label="Добавить" variant="primary" on-click="[[onAddCardAttributeClick]]">
                                     <pl-icon iconset="pl-default" size="16" icon="plus" slot="prefix"></pl-icon>
                                 </pl-button>
-                                <pl-button label="Добавить по сущности" variant="ghost" on-click="[[onAddByTableCardAttributeClick]]">
+                                <pl-button label="Добавить по сущности" variant="ghost" on-click="[[onAddByTableCardAttributeClick]]" disabled="[[supportCard.invalidMain]]">
                                     <pl-icon iconset="pl-default" size="16" icon="plus" slot="prefix"></pl-icon>
                                 </pl-button>                                
                             </pl-flex-layout>
@@ -115,12 +117,16 @@ export default class DevGenerateForm extends PlForm {
                         <pl-flex-layout vertical fit>
                             <pl-flex-layout align="flex-end" stretch>           
                                 <pl-combobox label="Найденные шаблоны (*.tmplt)" value="{{supportCard.templatePath}}" data="[[templatePaths]]" text-property="path" value-property="path" stretch></pl-combobox>
-                                <pl-button label="Показать" variant="ghost" on-click="[[onShowTemplateCardClick]]"></pl-button>
+                                <pl-button label="Показать" variant="ghost" on-click="[[onShowTemplateCardClick]]" disabled="[[!supportCard.templatePath]]"></pl-button>
                             </pl-flex-layout>
                             <pl-codeeditor label="Шаблон" value="{{supportCard.template}}"></pl-codeeditor>
                         </pl-flex-layout>
                         <pl-flex-layout vertical fit>
-                            <pl-button label="Сгенерировать" variant="primary" on-click="[[onGenerateFormCardClick]]"></pl-button>
+                            <pl-flex-layout align="flex-end" stretch>
+                                <pl-button label="Сгенерировать" variant="primary" on-click="[[onGenerateFormCardClick]]"></pl-button>
+                                <pl-combobox label="Путь до папки forms" value="{{supportCard.formPath}}" data="[[formPaths]]" text-property="path" value-property="path" stretch></pl-combobox>
+                                <pl-button label="Сохранить" variant="ghost" on-click="[[onSaveFormCardClick]]" disabled="[[saveFormDisabled(supportCard.formPath, supportCard.invalidMain, supportCard.result)]]"></pl-button>
+                            </pl-flex-layout>
                             <pl-codeeditor label="Результат" value="{{supportCard.result}}" mode="javascript"></pl-codeeditor>
                         </pl-flex-layout>
                     </pl-flex-layout>
@@ -131,8 +137,8 @@ export default class DevGenerateForm extends PlForm {
                     <pl-flex-layout scrollable vertical fit>
                         <pl-flex-layout stretch>
                             <pl-flex-layout vertical fit>
-                                <pl-input label="Схема сущности" title="entitySchema" value="{{recordList.entitySchema}}" stretch></pl-input>
-                                <pl-input label="Имя сущности" title="entityName" value="{{recordList.entityName}}" stretch></pl-input>
+                                <pl-input label="Схема сущности" title="entitySchema" value="{{recordList.entitySchema}}" stretch required></pl-input>
+                                <pl-input label="Имя сущности" title="entityName" value="{{recordList.entityName}}" stretch required></pl-input>
                                 <pl-input label="Имя класса формы" title="formClass" value="{{recordList.formClass}}" stretch></pl-input>
                                 <pl-input label="Заголовок формы" title="formTitle" value="{{recordList.formTitle}}" stretch></pl-input>
                             </pl-flex-layout>
@@ -141,13 +147,14 @@ export default class DevGenerateForm extends PlForm {
                                 <pl-input label="Адрес для удаления" title="endpointDelete" value="{{recordList.endpointDelete}}" stretch></pl-input>
                                 <pl-input label="Путь к форме карточки" title="cardForm" value="{{recordList.cardForm}}" stretch></pl-input>
                             </pl-flex-layout>
+                            <pl-valid-observer invalid="{{supportList.invalidMain}}"></pl-valid-observer>
                         </pl-flex-layout>
                         <pl-grid data="{{recordList.columns}}" header="Колонки" class="cols">
                             <pl-flex-layout slot="top-toolbar" align="flex-end"> 
                                 <pl-button label="Добавить" variant="primary" on-click="[[onAddListAttributeClick]]">
                                     <pl-icon iconset="pl-default" size="16" icon="plus" slot="prefix"></pl-icon>
                                 </pl-button>
-                                <pl-button label="Добавить по сущности" variant="ghost" on-click="[[onAddByTableListAttributeClick]]">
+                                <pl-button label="Добавить по сущности" variant="ghost" on-click="[[onAddByTableListAttributeClick]]" disabled="[[supportList.invalidMain]]">
                                     <pl-icon iconset="pl-default" size="16" icon="plus" slot="prefix"></pl-icon>
                                 </pl-button>
                             </pl-flex-layout>
@@ -260,12 +267,16 @@ export default class DevGenerateForm extends PlForm {
                         <pl-flex-layout vertical fit>
                             <pl-flex-layout align="flex-end" stretch>           
                                 <pl-combobox label="Найденные шаблоны (*.tmplt)" value="{{supportList.templatePath}}" data="[[templatePaths]]" text-property="path" value-property="path" stretch></pl-combobox>
-                                <pl-button label="Показать" variant="ghost" on-click="[[onShowTemplateListClick]]"></pl-button>
+                                <pl-button label="Показать" variant="ghost" on-click="[[onShowTemplateListClick]]" disabled="[[!supportList.templatePath]]"></pl-button>
                             </pl-flex-layout>
                             <pl-codeeditor label="Шаблон" value="{{supportList.template}}"></pl-codeeditor>
                         </pl-flex-layout>
                         <pl-flex-layout vertical fit>
-                            <pl-button label="Сгенерировать" variant="primary" on-click="[[onGenerateFormListClick]]"></pl-button>
+                            <pl-flex-layout align="flex-end" stretch>
+                                <pl-button label="Сгенерировать" variant="primary" on-click="[[onGenerateFormListClick]]"></pl-button>
+                                <pl-combobox label="Путь до папки forms" value="{{supportList.formPath}}" data="[[formPaths]]" text-property="path" value-property="path" stretch></pl-combobox>
+                                <pl-button label="Сохранить" variant="ghost" on-click="[[onSaveFormListClick]]" disabled="[[saveFormDisabled(supportList.formPath, supportList.invalidMain, supportList.result)]]"></pl-button>
+                            </pl-flex-layout>
                             <pl-codeeditor label="Результат" value="{{supportList.result}}" mode="javascript"></pl-codeeditor>
                         </pl-flex-layout>
                     </pl-flex-layout>
@@ -277,10 +288,13 @@ export default class DevGenerateForm extends PlForm {
         <pl-action id="aGenerate" endpoint="/@nfjs/dev/api/generateFormByTemplate"></pl-action>
         <pl-action id="getTemplatePaths" data="{{templatePaths}}" endpoint="/@nfjs/dev/api/generateFormByTemplate/getTemplatePaths"></pl-action>
         <pl-action id="getTemplateByPath" endpoint="/@nfjs/dev/api/generateFormByTemplate/getTemplateByPath"></pl-action>
+        <pl-action id="aGetFormPaths" data="{{formPaths}}" endpoint="/@nfjs/dev/api/generateFormByTemplate/getFormPaths"></pl-action>
+        <pl-action id="aSaveForm" endpoint="/@nfjs/dev/api/generateFormByTemplate/saveForm"></pl-action>
     `;
 
     async onConnect() {
         this.$.getTemplatePaths.execute();
+        this.$.aGetFormPaths.execute();
     }
 
     async onGenerateFormCardClick() {
@@ -291,6 +305,17 @@ export default class DevGenerateForm extends PlForm {
             templatePath: this.supportCard.templatePath
         });
         this.set('supportCard.result', res.formText);
+    }
+
+    async onSaveFormCardClick() {
+        const res = await this.$.aSaveForm.execute({ 
+            formType: 'card', 
+            formContent: this.supportCard.result,
+            formPath: this.supportCard.formPath, 
+            entitySchema: this.recordCard.entitySchema,
+            entityName: this.recordCard.entityName,
+        });
+        this.notify(res.filePath, { header: 'Форма успешно сохранена по пути:' });
     }
 
     onAddCardAttributeClick(event) {
@@ -328,6 +353,17 @@ export default class DevGenerateForm extends PlForm {
             templatePath: this.supportList.templatePath
         });
         this.set('supportList.result', res.formText);
+    }
+
+    async onSaveFormListClick() {
+        const res = await this.$.aSaveForm.execute({ 
+            formType: 'list', 
+            formContent: this.supportList.result,
+            formPath: this.supportList.formPath, 
+            entitySchema: this.recordList.entitySchema,
+            entityName: this.recordList.entityName,
+        });
+        this.notify(res.filePath, { header: 'Форма успешно сохранена по пути:' });
     }
 
     onAddListAttributeClick(event) {
@@ -374,6 +410,10 @@ export default class DevGenerateForm extends PlForm {
     onDeleteListFilterClick(event) {
         const idx = this.recordList.filters.findIndex(i => i === event.model.row);
         this.splice('recordList.filters', idx, 1);
+    }
+
+    saveFormDisabled(formPath, invalidMain, result) {
+        return !formPath || invalidMain || !result;
     }
 
 }
