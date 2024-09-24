@@ -303,9 +303,9 @@ export default class DevGenerateForm extends PlForm {
             this.set('recordCard.entityName', this.entityName);
             this.set('recordList.entityName', this.entityName);
         }
-        if (this.formTitle) {
-            this.set('recordCard.formTitle', this.formTitle);
-            this.set('recordList.formTitle', this.formTitle);
+        if (this.entityFormTitle) {
+            this.set('recordCard.formTitle', this.entityFormTitle);
+            this.set('recordList.formTitle', this.entityFormTitle);
         }
         if (this.entitySchema && this.entityName) {
             const capitalizeFirst = s => s[0].toUpperCase() + s.slice(1);

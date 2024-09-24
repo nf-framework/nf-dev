@@ -405,7 +405,7 @@ export default class DevUnitEdit extends PlForm {
         this.open('dev.generate-form', { 
             entitySchema: this.unit.code.split('.')[0], 
             entityName: this.unit.code.split('.')[1],
-            formTitle: this.unit.caption,
+            entityFormTitle: this.unit.caption,
          });
     }
 

@@ -14,6 +14,14 @@
         "order":    10
     },
     {
+        "caption":  "Генерация форм",
+        "path":     "Инструменты разработчика",
+        "form":     "dev.generate-form",
+        "icon":     "catalog-2",
+        "guid":     "b4892eff-081e-4e65-afd0-e78fe060cec9",
+        "order":    15
+    },   
+    {
         "caption":  "Подготовка исходников бд",
         "path":     "Инструменты разработчика",
         "form":     "dev.db-source-save",
