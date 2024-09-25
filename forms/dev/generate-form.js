@@ -13,7 +13,7 @@ export default class DevGenerateForm extends PlForm {
         },
         supportCard: {
             type: Object,
-            value: () => ({ schema: null, table: null })
+            value: () => ({ schema: null, table: null, tables: [] })
         },
         recordList: {
             type: Object,
@@ -21,10 +21,11 @@ export default class DevGenerateForm extends PlForm {
         },
         supportList: {
             type: Object,
-            value: () => ({ schema: null, table: null })
+            value: () => ({ schema: null, table: null, tables: [] })
         },
         templatePaths: { type: Array, value: () => [] },
-        formPaths: { type: Array, value: () => [] }
+        formPaths: { type: Array, value: () => [] },
+        schemas: { type: Array, value: () => [] }  
     }
 
     static template = html`
@@ -34,8 +35,8 @@ export default class DevGenerateForm extends PlForm {
                     <pl-flex-layout scrollable vertical fit>
                         <pl-flex-layout stretch>
                             <pl-flex-layout vertical fit>
-                                <pl-input label="Схема сущности" title="entitySchema" value="{{recordCard.entitySchema}}" stretch required></pl-input>
-                                <pl-input label="Имя сущности" title="entityName" value="{{recordCard.entityName}}" stretch required></pl-input>
+                                <pl-combobox label="Схема сущности" title="entitySchema" data="[[schemas]]" text-property="code" value-property="code" value="{{recordCard.entitySchema}}" stretch required></pl-combobox>
+                                <pl-combobox label="Имя сущности" title="entityName" data="[[supportCard.tables]]" text-property="code" value-property="code" value="{{recordCard.entityName}}" stretch required></pl-combobox>
                                 <pl-input label="Имя класса формы" title="formClass" value="{{recordCard.formClass}}" stretch></pl-input>
                                 <pl-input label="Заголовок формы" title="formTitle" value="{{recordCard.formTitle}}" stretch></pl-input>
                                 <pl-input label="Имя свойства для записи сущности" title="recordProperty" value="{{recordCard.recordProperty}}" stretch></pl-input>
@@ -137,8 +138,8 @@ export default class DevGenerateForm extends PlForm {
                     <pl-flex-layout scrollable vertical fit>
                         <pl-flex-layout stretch>
                             <pl-flex-layout vertical fit>
-                                <pl-input label="Схема сущности" title="entitySchema" value="{{recordList.entitySchema}}" stretch required></pl-input>
-                                <pl-input label="Имя сущности" title="entityName" value="{{recordList.entityName}}" stretch required></pl-input>
+                                <pl-combobox label="Схема сущности" title="entitySchema" data="[[schemas]]" text-property="code" value-property="code" value="{{recordList.entitySchema}}" stretch required></pl-combobox>
+                                <pl-combobox label="Имя сущности" title="entityName" data="[[supportList.tables]]" text-property="code" value-property="code" value="{{recordList.entityName}}" stretch required></pl-combobox>
                                 <pl-input label="Имя класса формы" title="formClass" value="{{recordList.formClass}}" stretch></pl-input>
                                 <pl-input label="Заголовок формы" title="formTitle" value="{{recordList.formTitle}}" stretch></pl-input>
                             </pl-flex-layout>
@@ -290,11 +291,15 @@ export default class DevGenerateForm extends PlForm {
         <pl-action id="getTemplateByPath" endpoint="/@nfjs/dev/api/generateFormByTemplate/getTemplateByPath"></pl-action>
         <pl-action id="aGetFormPaths" data="{{formPaths}}" endpoint="/@nfjs/dev/api/generateFormByTemplate/getFormPaths"></pl-action>
         <pl-action id="aSaveForm" endpoint="/@nfjs/dev/api/generateFormByTemplate/saveForm"></pl-action>
+        <pl-dataset id="dsSchemas" data="{{schemas}}"></pl-dataset>
+        <pl-dataset id="dsTablesCard" data="{{supportCard.tables}}" args="[[_compose('schema',recordCard.entitySchema)]]" required-args="schema" execute-on-args-change></pl-dataset>
+        <pl-dataset id="dsTablesList" data="{{supportList.tables}}" args="[[_compose('schema',recordList.entitySchema)]]" required-args="schema" execute-on-args-change></pl-dataset>
     `;
 
     async onConnect() {
         this.$.getTemplatePaths.execute();
         this.$.aGetFormPaths.execute();
+        this.$.dsSchemas.execute();
         if (this.entitySchema) {
             this.set('recordCard.entitySchema', this.entitySchema);
             this.set('recordList.entitySchema', this.entitySchema);
@@ -435,4 +440,29 @@ export default class DevGenerateForm extends PlForm {
         return !formPath || invalidMain || !result;
     }
 
+    serverEndpoints = {
+        dataset: {
+            dsSchemas: {
+                text: `select k.schema_name as code
+                         from information_schema.schemata k
+                       order by 1`
+            },
+            dsTablesCard: {
+                text: `select p.relname as code
+                         from pg_catalog.pg_class p
+                              join pg_catalog.pg_namespace pn on pn.oid = p.relnamespace
+                        where pn.nspname = :schema
+                          and p.relkind  = 'r'
+                        order by 1 asc`
+            },
+            dsTablesList: {
+                text: `select p.relname as code
+                         from pg_catalog.pg_class p
+                              join pg_catalog.pg_namespace pn on pn.oid = p.relnamespace
+                        where pn.nspname = :schema
+                          and p.relkind  = 'r'
+                        order by 1 asc`
+            },
+        }
+    }//serverEndpoints
 }
