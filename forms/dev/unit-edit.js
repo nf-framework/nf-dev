@@ -27,7 +27,8 @@ export default class DevUnitEdit extends PlForm {
                     opt: {
                         idGenMethod: 'self',
                         divideType: 'sys',
-                        useHierarchy: false
+                        useHierarchy: false,
+                        isDictionary: false
                     },
                     bps:[]
                 })
@@ -85,6 +86,7 @@ export default class DevUnitEdit extends PlForm {
                             <pl-combobox label="Генерация идентификатора" text-property="text" value-property="value" value="{{unit.opt.idGenMethod}}" data="[[idGenMethods]]" required></pl-combobox>
                             <pl-combobox label="Деление" value="{{unit.opt.divideType}}" text-property="text" value-property="value"  data="[[divides]]" required></pl-combobox>
                             <pl-checkbox label="Иерархия" checked="{{unit.opt.useHierarchy}}" required></pl-checkbox>
+                            <pl-checkbox label="Справочник" checked="{{unit.opt.isDictionary}}"></pl-checkbox>
                         </pl-flex-layout>
                     </pl-flex-layout>
                     <pl-card header="Действия" fit>
