@@ -9,7 +9,7 @@ export default class DevUnitlist extends PlForm {
             unitlist: { value: () => ([]) },
             unitbps: { value: () => ([]) },
             currModule: {},
-            activeModule: {},
+            activeModule: { observer: 'activeModuleObserver'},
             activeUnit: {}
         }
     }
@@ -108,11 +108,11 @@ export default class DevUnitlist extends PlForm {
                 <pl-flex-layout vertical>
                     <pl-input label="Код" value="{{currModule.code}}" required></pl-input>
                     <pl-input label="Наименование" value="{{currModule.caption}}" required></pl-input>
-                    <pl-flex-layout>
-                        <pl-button label="Сохранить" on-click="[[onModuleSave]]" disabled="[[invalid]]" variant="primary">
+                    <pl-flex-layout stretch>
+                        <pl-button stretch label="Сохранить" on-click="[[onModuleSave]]" disabled="[[invalid]]" variant="primary">
                             <pl-icon iconset="pl-default" icon="save" slot="suffix" variant="primary"></pl-icon>
                         </pl-button>
-                        <pl-button label="Отменить" on-click="[[onModuleDropdownClose]]">
+                        <pl-button stretch label="Отменить" on-click="[[onModuleDropdownClose]]">
                             <pl-icon iconset="pl-default" icon="close-circle" slot="suffix"></pl-icon>
                         </pl-button>                                                    
                     </pl-flex-layout>
@@ -193,6 +193,12 @@ export default class DevUnitlist extends PlForm {
         await this.$.aModuleDel.execute({code: event.model.row.code});
         await this.$.dsModulelist.execute();
         this.activeModule = this.modulelist[0];
+    }
+
+    activeModuleObserver(val) {
+        if(val) {
+            this.unitbps = [];
+        }
     }
 
     serverEndpoints = {

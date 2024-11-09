@@ -19,7 +19,7 @@ export default class DevIcons extends PlForm {
             height: 130px;
             align-items: center;
             justify-content: center;
-            gap: var(--pl-base-space);
+            gap: 8px;
             border-radius: var(--pl-border-radius);
         }
     `
